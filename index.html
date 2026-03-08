@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Mr. Pizza Family Restaurant</title>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Poppins:wght@300;400;500;600;700&family=Satisfy&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+:root {
+  --red: #D62828;
+  --red2: #E63946;
+  --red-dark: #9B1B1B;
+  --yellow: #F5C518;
+  --yellow2: #FFD93D;
+  --yellow-dark: #C9A000;
+  --black: #0D0D0D;
+  --dark: #141414;
+  --dark2: #1C1C1C;
+  --dark3: #252525;
+  --dark4: #2E2E2E;
+  --text: #F0EAD6;
+  --text-muted: #9A8F7A;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--text);font-family:'Poppins',sans-serif;overflow-x:hidden;-webkit-tap-highlight-color:transparent;}
+::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:var(--dark);}::-webkit-scrollbar-thumb{background:var(--red);border-radius:2px;}
+
+/* LOADER */
+#loader{position:fixed;inset:0;background:var(--black);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity .7s ease;}
+#loader.hide{opacity:0;pointer-events:none;}
+.loader-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=60') center/cover;opacity:.07;}
+.loader-logo{font-family:'Bangers',cursive;font-size:3.5rem;color:var(--yellow);letter-spacing:6px;animation:logoUp 1s ease forwards;position:relative;z-index:1;text-shadow:3px 3px 0 var(--red-dark);}
+.loader-sub{font-size:.55rem;color:var(--text-muted);letter-spacing:4px;margin-top:2px;text-transform:uppercase;position:relative;z-index:1;animation:logoUp 1s .15s ease both;}
+.loader-bar{width:160px;height:2px;background:rgba(245,197,24,0.15);margin-top:22px;border-radius:2px;overflow:hidden;position:relative;z-index:1;}
+.loader-fill{height:100%;background:linear-gradient(90deg,var(--red),var(--yellow));animation:lf 2s ease forwards;}
+.loader-dots{display:flex;gap:5px;margin-top:12px;position:relative;z-index:1;}
+.loader-dot{width:5px;height:5px;border-radius:50%;background:var(--yellow);animation:dotPulse 1.4s ease infinite;}
+.loader-dot:nth-child(2){animation-delay:.2s;background:var(--red);}.loader-dot:nth-child(3){animation-delay:.4s;}
+@keyframes dotPulse{0%,80%,100%{transform:scale(0.6);opacity:.4}40%{transform:scale(1);opacity:1}}
+@keyframes logoUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes lf{from{width:0}to{width:100%}}
+
+/* PAGE SYSTEM */
+.page{display:none;min-height:100vh;padding-top:62px;padding-bottom:80px;animation:pageIn .3s ease;}
+.page.active{display:block;}
+#page-home{padding-bottom:80px;}
+@keyframes pageIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* HEADER */
+#header{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(13,13,13,0.95);backdrop-filter:blur(20px);border-bottom:2px solid var(--red);}
+.header-inner{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;max-width:480px;margin:0 auto;}
+.brand-name{font-family:'Bangers',cursive;font-size:1.6rem;color:var(--yellow);letter-spacing:3px;cursor:pointer;text-shadow:2px 2px 0 var(--red-dark);}
+.brand-sub{font-size:0.48rem;color:var(--text-muted);letter-spacing:3px;text-transform:uppercase;}
+.hdr-actions{display:flex;gap:8px;align-items:center;}
+.icon-btn{width:36px;height:36px;background:var(--dark3);border:1px solid rgba(245,197,24,0.25);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;position:relative;color:var(--text);}
+.icon-btn:active{transform:scale(.92);}
+.icon-btn:hover{border-color:var(--yellow);}
+.cart-badge{position:absolute;top:-5px;right:-5px;background:var(--red);color:#fff;width:17px;height:17px;border-radius:50%;font-size:.6rem;font-weight:700;display:none;align-items:center;justify-content:center;}
+
+/* HERO */
+#hero-section{padding-top:62px;position:relative;overflow:hidden;min-height:85vw;max-height:400px;display:flex;flex-direction:column;justify-content:flex-end;}
+.hero-img{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=900&q=90') center 40%/cover no-repeat;transform:scale(1.06);animation:heroZoom 8s ease-out forwards;}
+@keyframes heroZoom{from{transform:scale(1.06)}to{transform:scale(1.0)}}
+.hero-gradient{position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,13,13,0.5) 0%,transparent 30%,transparent 40%,rgba(13,13,13,0.88) 75%,#0D0D0D 100%),linear-gradient(90deg,rgba(13,13,13,0.35) 0%,transparent 60%);}
+.hero-orb{position:absolute;border-radius:50%;filter:blur(60px);pointer-events:none;}
+.hero-orb-1{width:200px;height:200px;background:radial-gradient(circle,rgba(214,40,40,0.22) 0%,transparent 70%);top:-30px;right:-40px;animation:orbFloat 6s ease-in-out infinite alternate;}
+.hero-orb-2{width:150px;height:150px;background:radial-gradient(circle,rgba(245,197,24,0.15) 0%,transparent 70%);bottom:50px;left:-20px;animation:orbFloat 8s ease-in-out infinite alternate-reverse;}
+@keyframes orbFloat{from{transform:translateY(0) scale(1)}to{transform:translateY(-15px) scale(1.05)}}
+#hero-particles{position:absolute;inset:0;pointer-events:none;z-index:1;}
+.hero-content{position:relative;z-index:3;padding:0 18px 20px;max-width:480px;margin:0 auto;width:100%;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:6px;margin-bottom:7px;opacity:0;animation:slideRight .6s .3s ease forwards;}
+.hero-eyebrow-dot{width:5px;height:5px;background:var(--yellow);border-radius:50%;}
+.hero-eyebrow-text{font-size:.58rem;color:var(--yellow);letter-spacing:3px;text-transform:uppercase;font-weight:600;}
+.hero-title{font-family:'Bangers',cursive;font-size:3rem;line-height:1.0;color:#fff;margin-bottom:8px;opacity:0;animation:slideRight .6s .45s ease forwards;text-shadow:3px 3px 0 rgba(214,40,40,0.6);}
+.hero-title em{color:var(--yellow);font-style:normal;}
+.hero-desc{font-size:.76rem;color:rgba(240,234,214,0.75);line-height:1.6;margin-bottom:12px;opacity:0;animation:slideRight .6s .65s ease forwards;}
+@keyframes slideRight{from{opacity:0;transform:translateX(-16px)}to{opacity:1;transform:translateX(0)}}
+.hero-stats{display:flex;gap:6px;flex-wrap:wrap;opacity:0;animation:fadeUp2 .5s .85s ease forwards;}
+@keyframes fadeUp2{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.h-stat{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,0.07);border:1px solid rgba(245,197,24,0.25);border-radius:30px;padding:5px 10px;backdrop-filter:blur(8px);}
+.h-stat-icon{font-size:.75rem;}
+.h-stat-text{font-size:.6rem;color:var(--text-muted);}
+.h-stat-text strong{color:var(--yellow);font-weight:600;}
+
+/* IFTAR BANNER */
+.iftar-banner{margin:14px 16px;background:linear-gradient(135deg,#1a0808,#2a0f0f);border:1px solid var(--red);border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:12px;max-width:448px;margin-left:auto;margin-right:auto;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
+.iftar-banner::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(214,40,40,0.08),transparent);pointer-events:none;}
+.iftar-banner:active{transform:scale(.98);}
+.iftar-glow{position:absolute;top:-20px;right:-20px;width:80px;height:80px;background:radial-gradient(circle,rgba(245,197,24,0.3),transparent 70%);pointer-events:none;}
+.iftar-icon{font-size:2rem;flex-shrink:0;}
+.iftar-text{}
+.iftar-label{font-size:.55rem;color:var(--red2);letter-spacing:2px;text-transform:uppercase;font-weight:600;}
+.iftar-title{font-family:'Bangers',cursive;font-size:1.3rem;color:var(--yellow);letter-spacing:2px;}
+.iftar-price{font-size:.7rem;color:var(--text-muted);}
+.iftar-price strong{color:#fff;font-weight:600;}
+.iftar-arrow{margin-left:auto;font-size:1.2rem;color:var(--yellow);}
+
+/* SEARCH */
+.search-wrap{padding:14px 16px 6px;max-width:480px;margin:0 auto;}
+.search-box{display:flex;align-items:center;gap:9px;background:var(--dark2);border:1px solid rgba(245,197,24,0.2);border-radius:14px;padding:10px 15px;transition:all .25s ease;box-shadow:0 4px 20px rgba(0,0,0,0.3);}
+.search-box:focus-within{border-color:var(--yellow);box-shadow:0 0 0 3px rgba(245,197,24,0.08),0 4px 20px rgba(0,0,0,0.4);}
+.search-box input{flex:1;background:none;border:none;outline:none;color:var(--text);font-family:'Poppins',sans-serif;font-size:.82rem;}
+.search-box input::placeholder{color:var(--text-muted);}
+
+/* SECTION LABEL */
+.home-section-label{padding:14px 18px 8px;display:flex;align-items:center;gap:12px;max-width:480px;margin:0 auto;}
+.hsl-line{flex:1;height:1px;background:linear-gradient(90deg,rgba(214,40,40,0.4),transparent);}
+.hsl-text{font-size:.58rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-muted);white-space:nowrap;}
+
+/* ── TWO-PANEL MENU LAYOUT ── */
+#menu-layout{display:flex;max-width:480px;margin:0 auto;width:100%;height:calc(100vh - 62px - 80px);max-height:600px;}
+
+/* LEFT SIDEBAR */
+#cat-sidebar{width:74px;flex-shrink:0;overflow-y:auto;overflow-x:hidden;background:var(--dark);border-right:1px solid var(--dark3);scrollbar-width:none;height:100%;}
+#cat-sidebar::-webkit-scrollbar{display:none;}
+.sidebar-item{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:11px 3px;cursor:pointer;transition:all .18s;border-left:3px solid transparent;gap:4px;}
+.sidebar-item.active{background:rgba(214,40,40,0.1);border-left-color:var(--red);}
+.sidebar-item:active{transform:scale(.94);}
+.sidebar-emoji{font-size:1.35rem;line-height:1;}
+.sidebar-label{font-size:.46rem;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.2;letter-spacing:.2px;max-width:66px;}
+.sidebar-item.active .sidebar-label{color:var(--red2);}
+.sidebar-item.active .sidebar-emoji{filter:drop-shadow(0 0 5px rgba(214,40,40,0.6));}
+
+/* RIGHT MENU PANEL */
+#menu-panel{flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;height:100%;padding-bottom:20px;}
+#menu-panel::-webkit-scrollbar{display:none;}
+#menu-panel > *{animation:panelFade .22s ease;}
+@keyframes panelFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+.menu-cat-section{}
+.menu-cat-header{display:flex;align-items:center;gap:8px;padding:12px 10px 8px;position:sticky;top:0;background:var(--black);z-index:10;border-bottom:1px solid var(--dark3);}
+.menu-cat-header-emoji{font-size:1.15rem;}
+.menu-cat-header-name{font-family:'Bangers',cursive;font-size:1.05rem;color:#fff;letter-spacing:1px;}
+.menu-cat-count{font-size:.55rem;color:var(--text-muted);background:var(--dark3);padding:2px 7px;border-radius:20px;margin-left:auto;}
+
+/* MENU GRID */
+.menu-section{padding:0;}
+.menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:8px 8px 4px;}
+
+/* CARD */
+.menu-card{background:var(--dark2);border:1px solid var(--dark3);border-radius:16px;overflow:hidden;cursor:pointer;transition:all .22s;position:relative;}
+.menu-card:active{transform:scale(.96);}
+.menu-card:hover{border-color:rgba(245,197,24,0.3);box-shadow:0 8px 30px rgba(0,0,0,0.4);}
+.card-img-wrap{position:relative;aspect-ratio:4/3;overflow:hidden;background:var(--dark3);}
+.card-img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease;}
+.menu-card:hover .card-img{transform:scale(1.06);}
+.card-img-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2.2rem;}
+.card-badge{position:absolute;top:7px;left:7px;font-size:.55rem;font-weight:700;padding:3px 8px;border-radius:20px;letter-spacing:.5px;text-transform:uppercase;}
+.badge-best{background:var(--red);color:#fff;}
+.badge-new{background:var(--yellow);color:var(--black);}
+.badge-spicy{background:#ff6b35;color:#fff;}
+.badge-hot{background:linear-gradient(90deg,var(--red),#ff6b35);color:#fff;}
+.card-body{padding:10px 11px 11px;}
+.card-name{font-size:.78rem;font-weight:600;color:#fff;margin-bottom:3px;line-height:1.3;}
+.card-desc{font-size:.64rem;color:var(--text-muted);line-height:1.4;margin-bottom:8px;}
+.card-footer{display:flex;align-items:center;justify-content:space-between;}
+.card-price{font-size:.82rem;font-weight:700;color:var(--yellow);}
+.card-price span{font-size:.6rem;font-weight:400;color:var(--text-muted);}
+.add-btn{width:28px;height:28px;background:var(--red);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.1rem;transition:all .2s;flex-shrink:0;}
+.add-btn:hover{background:var(--red2);transform:scale(1.08);}
+
+/* SIZE SELECTOR CARD variant */
+.size-card{background:var(--dark2);border:1px solid var(--dark3);border-radius:16px;overflow:hidden;cursor:pointer;transition:all .22s;position:relative;}
+.size-card:active{transform:scale(.96);}
+.size-card:hover{border-color:rgba(245,197,24,0.3);}
+.size-card-body{padding:12px;}
+.size-card-name{font-size:.8rem;font-weight:600;color:#fff;margin-bottom:6px;}
+.size-card-desc{font-size:.62rem;color:var(--text-muted);margin-bottom:10px;}
+.size-options{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px;}
+.size-opt{padding:4px 10px;border-radius:20px;border:1px solid var(--dark4);font-size:.6rem;cursor:pointer;transition:all .18s;color:var(--text-muted);}
+.size-opt.sel{background:var(--red);border-color:var(--red);color:#fff;}
+.size-footer{display:flex;align-items:center;justify-content:space-between;}
+.size-price{font-size:.84rem;font-weight:700;color:var(--yellow);}
+
+/* HOT DEALS SECTION */
+.deal-card{background:linear-gradient(135deg,var(--dark2),#200a0a);border:1px solid rgba(214,40,40,0.3);border-radius:16px;padding:14px;margin-bottom:10px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
+.deal-card:active{transform:scale(.98);}
+.deal-card::before{content:'';position:absolute;top:-20px;right:-20px;width:80px;height:80px;background:radial-gradient(circle,rgba(245,197,24,0.12),transparent 70%);pointer-events:none;}
+.deal-tag{font-size:.55rem;font-weight:700;color:var(--red2);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;}
+.deal-name{font-family:'Bangers',cursive;font-size:1.15rem;color:var(--yellow);letter-spacing:1px;margin-bottom:4px;}
+.deal-desc{font-size:.66rem;color:var(--text-muted);line-height:1.5;margin-bottom:10px;}
+.deal-footer{display:flex;align-items:center;justify-content:space-between;}
+.deal-price{font-size:.95rem;font-weight:700;color:#fff;}
+.deal-add{background:var(--red);color:#fff;padding:6px 14px;border-radius:20px;font-size:.68rem;font-weight:600;transition:all .2s;}
+.deal-add:hover{background:var(--red2);}
+
+/* BOTTOM NAV */
+#bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(13,13,13,0.97);backdrop-filter:blur(20px);border-top:1px solid var(--dark3);padding:8px 0 env(safe-area-inset-bottom,8px);}
+.nav-inner{display:flex;justify-content:space-around;max-width:480px;margin:0 auto;}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px 14px;cursor:pointer;transition:all .2s;position:relative;}
+.nav-icon{font-size:1.25rem;transition:transform .2s;}
+.nav-label{font-size:.55rem;font-weight:500;color:var(--text-muted);letter-spacing:.5px;}
+.nav-item.active .nav-icon{transform:translateY(-2px);}
+.nav-item.active .nav-label{color:var(--yellow);}
+.nav-dot{width:4px;height:4px;border-radius:50%;background:var(--red);position:absolute;bottom:-2px;opacity:0;transition:opacity .2s;}
+.nav-item.active .nav-dot{opacity:1;}
+
+/* CART PAGE */
+.cart-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;gap:12px;text-align:center;}
+.cart-empty-icon{font-size:3.5rem;opacity:.4;}
+.cart-empty-title{font-family:'Bangers',cursive;font-size:1.5rem;color:var(--text-muted);letter-spacing:2px;}
+.cart-empty-sub{font-size:.75rem;color:var(--text-muted);max-width:220px;}
+
+.cart-items{padding:0 16px;max-width:480px;margin:0 auto;}
+.cart-item{display:flex;align-items:center;gap:12px;background:var(--dark2);border:1px solid var(--dark3);border-radius:14px;padding:12px;margin-bottom:10px;}
+.ci-emoji{width:46px;height:46px;background:var(--dark3);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;}
+.ci-info{flex:1;}
+.ci-name{font-size:.8rem;font-weight:600;color:#fff;margin-bottom:2px;}
+.ci-size{font-size:.62rem;color:var(--text-muted);}
+.ci-price{font-size:.82rem;font-weight:700;color:var(--yellow);}
+.ci-qty{display:flex;align-items:center;gap:8px;}
+.qty-btn{width:26px;height:26px;border-radius:7px;border:1px solid var(--dark4);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .18s;font-size:.85rem;color:var(--text-muted);}
+.qty-btn:hover{border-color:var(--red);color:var(--red);}
+.qty-val{font-size:.8rem;font-weight:600;color:#fff;min-width:18px;text-align:center;}
+
+/* ORDER TYPE */
+.order-type-wrap{padding:0 16px;max-width:480px;margin:0 auto 14px;}
+.order-type-label{font-size:.65rem;color:var(--text-muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;font-weight:600;}
+.order-type-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.ot-btn{background:var(--dark2);border:1px solid var(--dark3);border-radius:12px;padding:10px 8px;text-align:center;cursor:pointer;transition:all .2s;}
+.ot-btn.active{background:rgba(214,40,40,0.12);border-color:var(--red);}
+.ot-icon{font-size:1.4rem;margin-bottom:4px;}
+.ot-label{font-size:.6rem;font-weight:600;color:var(--text-muted);}
+.ot-btn.active .ot-label{color:var(--red2);}
+
+/* CHECKOUT FORM */
+.checkout-form{padding:0 16px;max-width:480px;margin:0 auto;}
+.cf-field{margin-bottom:10px;}
+.cf-label{font-size:.65rem;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;display:block;}
+.cf-input{width:100%;background:var(--dark2);border:1px solid var(--dark3);border-radius:11px;padding:10px 14px;color:var(--text);font-family:'Poppins',sans-serif;font-size:.82rem;outline:none;transition:border-color .2s;}
+.cf-input:focus{border-color:var(--yellow);}
+.cf-input::placeholder{color:var(--text-muted);}
+
+/* ORDER SUMMARY */
+.order-summary{background:var(--dark2);border:1px solid var(--dark3);border-radius:16px;padding:16px;margin:14px 16px;max-width:448px;margin-left:auto;margin-right:auto;}
+.summary-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.summary-label{font-size:.75rem;color:var(--text-muted);}
+.summary-value{font-size:.75rem;color:#fff;font-weight:500;}
+.summary-total-row{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:10px;border-top:1px solid var(--dark4);}
+.summary-total-label{font-size:.85rem;font-weight:700;color:#fff;}
+.summary-total-value{font-size:1rem;font-weight:700;color:var(--yellow);}
+
+/* WHATSAPP BTN */
+.wa-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:calc(100% - 32px);margin:0 16px 14px;background:linear-gradient(135deg,#128C7E,#25D366);border-radius:16px;padding:15px;font-weight:700;font-size:.9rem;color:#fff;cursor:pointer;transition:all .2s;box-shadow:0 6px 25px rgba(37,211,102,0.35);}
+.wa-btn:active{transform:scale(.97);}
+.wa-btn svg{width:20px;height:20px;}
+
+/* CHECKOUT OVERLAY */
+/* CHECKOUT OVERLAY - handled above with res-overlay */
+.checkout-sheet{background:var(--dark);border-radius:24px 24px 0 0;padding:20px 20px 36px;width:100%;max-width:480px;margin:0 auto;transform:translateY(100%);transition:transform .35s cubic-bezier(.16,1,.3,1);max-height:90vh;overflow-y:auto;}
+#checkout-overlay.open .checkout-sheet{transform:translateY(0);}
+.checkout-sheet::-webkit-scrollbar{display:none;}
+.co-handle{width:40px;height:4px;background:var(--dark4);border-radius:2px;margin:0 auto 18px;}
+.co-title{font-family:'Bangers',cursive;font-size:1.5rem;color:var(--yellow);letter-spacing:2px;margin-bottom:2px;}
+.co-subtitle{font-size:.68rem;color:var(--text-muted);margin-bottom:16px;}
+
+/* ORDER TYPE TABS inside checkout */
+.ot-tabs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:18px;}
+.ot-tab{background:var(--dark2);border:1.5px solid var(--dark3);border-radius:14px;padding:12px 6px;text-align:center;cursor:pointer;transition:all .2s;}
+.ot-tab.active{background:rgba(214,40,40,0.12);border-color:var(--red);}
+.ot-tab:active{transform:scale(.94);}
+.ot-tab-icon{font-size:1.5rem;margin-bottom:5px;}
+.ot-tab-label{font-size:.65rem;font-weight:700;color:var(--text-muted);}
+.ot-tab.active .ot-tab-label{color:var(--red2);}
+.ot-tab-sub{font-size:.52rem;color:var(--text-muted);margin-top:2px;}
+.ot-tab.active .ot-tab-sub{color:rgba(230,57,70,0.7);}
+
+/* divider inside checkout */
+.co-divider{height:1px;background:var(--dark3);margin:14px 0;}
+.co-section-label{font-size:.6rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1.5px;font-weight:600;margin-bottom:10px;}
+
+/* Both overlays hidden by default - display:none so they take ZERO page space */
+#res-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);z-index:200;align-items:flex-end;}
+#res-overlay.open{display:flex;}
+#checkout-overlay{display:none !important;position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(6px);z-index:200;align-items:flex-end;}
+#checkout-overlay.open{display:flex !important;}
+
+.res-sheet{background:var(--dark);border-radius:24px 24px 0 0;padding:24px 20px 32px;width:100%;max-width:480px;margin:0 auto;transform:translateY(100%);transition:transform .35s cubic-bezier(.16,1,.3,1);}
+#res-overlay.open .res-sheet{transform:translateY(0);}
+.res-handle{width:40px;height:4px;background:var(--dark4);border-radius:2px;margin:0 auto 20px;}
+.res-title{font-family:'Bangers',cursive;font-size:1.6rem;color:var(--yellow);letter-spacing:2px;margin-bottom:4px;}
+.res-subtitle{font-size:.7rem;color:var(--text-muted);margin-bottom:18px;}
+.res-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.res-submit{width:100%;background:var(--red);border-radius:14px;padding:14px;font-weight:700;font-size:.88rem;color:#fff;cursor:pointer;transition:all .2s;margin-top:14px;text-align:center;box-shadow:0 6px 20px rgba(214,40,40,0.35);}
+.res-submit:active{transform:scale(.97);}
+
+/* IFTAR PAGE */
+.iftar-page{padding:0 16px;max-width:480px;margin:0 auto;}
+.iftar-hero{background:linear-gradient(135deg,#1a0808,#2a0f0f,#1a0808);border:1px solid var(--red);border-radius:20px;padding:24px;text-align:center;margin-bottom:16px;position:relative;overflow:hidden;}
+.iftar-hero::before{content:'🌙';position:absolute;top:10px;right:16px;font-size:1.5rem;opacity:.4;}
+.iftar-hero::after{content:'🌙';position:absolute;top:10px;left:16px;font-size:1.5rem;opacity:.4;transform:scaleX(-1);}
+.iftar-hero-title{font-family:'Bangers',cursive;font-size:2.2rem;color:var(--yellow);letter-spacing:3px;text-shadow:2px 2px 0 var(--red-dark);}
+.iftar-hero-sub{font-size:.7rem;color:var(--text-muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;}
+.iftar-includes{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:16px;}
+.iftar-tag{background:rgba(245,197,24,0.1);border:1px solid rgba(245,197,24,0.25);border-radius:20px;padding:4px 12px;font-size:.65rem;color:var(--yellow);}
+.iftar-price-badge{display:inline-block;background:var(--red);color:#fff;font-family:'Bangers',cursive;font-size:1.8rem;letter-spacing:2px;padding:8px 24px;border-radius:50px;box-shadow:0 4px 20px rgba(214,40,40,0.4);}
+.iftar-book-btn{width:100%;background:linear-gradient(135deg,var(--red),var(--red2));border-radius:14px;padding:14px;font-weight:700;font-size:.88rem;color:#fff;cursor:pointer;transition:all .2s;margin-top:14px;text-align:center;box-shadow:0 6px 20px rgba(214,40,40,0.4);}
+.iftar-book-btn:active{transform:scale(.97);}
+
+/* ABOUT PAGE */
+.about-card{background:var(--dark2);border:1px solid var(--dark3);border-radius:16px;padding:18px;margin-bottom:12px;}
+.about-section-title{font-family:'Bangers',cursive;font-size:1.2rem;color:var(--yellow);letter-spacing:2px;margin-bottom:10px;}
+.info-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;}
+.info-icon{font-size:1.1rem;flex-shrink:0;margin-top:1px;}
+.info-label{font-size:.6rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;}
+.info-value{font-size:.8rem;color:#fff;font-weight:500;}
+.contact-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;border-radius:13px;font-weight:600;font-size:.82rem;cursor:pointer;transition:all .2s;margin-bottom:8px;}
+.contact-btn:active{transform:scale(.97);}
+.contact-wa{background:linear-gradient(135deg,#128C7E,#25D366);color:#fff;box-shadow:0 4px 15px rgba(37,211,102,0.3);}
+.contact-call{background:var(--dark2);border:1px solid var(--dark4);color:var(--text);}
+
+/* TOAST */
+#toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--dark3);border:1px solid var(--dark4);color:#fff;padding:10px 20px;border-radius:30px;font-size:.76rem;opacity:0;transition:all .3s;z-index:300;white-space:nowrap;box-shadow:0 8px 30px rgba(0,0,0,0.4);}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* PAGE HEADER */
+.page-header{display:flex;align-items:center;gap:10px;padding:14px 16px 10px;max-width:480px;margin:0 auto;}
+.back-btn{width:34px;height:34px;background:var(--dark3);border:1px solid var(--dark4);border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all .2s;}
+.back-btn:active{transform:scale(.9);}
+.page-title{font-family:'Bangers',cursive;font-size:1.3rem;font-weight:400;color:#fff;letter-spacing:1.5px;}
+.page-subtitle{font-size:.62rem;color:var(--text-muted);}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-bg"></div>
+  <div class="loader-logo">MR. PIZZA</div>
+  <div class="loader-sub">Family Restaurant · Daska</div>
+  <div class="loader-bar"><div class="loader-fill"></div></div>
+  <div class="loader-dots">
+    <div class="loader-dot"></div>
+    <div class="loader-dot"></div>
+    <div class="loader-dot"></div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<div id="header">
+  <div class="header-inner">
+    <div onclick="showPage('home')" style="cursor:pointer;">
+      <div class="brand-name">🍕 MR. PIZZA</div>
+      <div class="brand-sub">Family Restaurant · Daska</div>
+    </div>
+    <div class="hdr-actions">
+      <div class="icon-btn" onclick="focusSearch()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </div>
+      <div class="icon-btn" onclick="showPage('cart')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <div class="cart-badge" id="cart-badge">0</div>
+      </div>
+      <div class="icon-btn" onclick="openReservation()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HOME PAGE -->
+<div class="page active" id="page-home">
+  <!-- Hero -->
+  <div id="hero-section">
+    <div class="hero-img"></div>
+    <div class="hero-gradient"></div>
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <canvas id="hero-particles"></canvas>
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-dot"></div>
+        <div class="hero-eyebrow-text">Daska's Favourite Since Day One</div>
+      </div>
+      <div class="hero-title">Every Slice<br>is a <em>Story.</em></div>
+      <div class="hero-desc">Pizza, BBQ, Burgers & more — crafted with love for the whole family. Free home delivery!</div>
+      <div class="hero-stats">
+        <div class="h-stat"><div class="h-stat-icon">🕐</div><div class="h-stat-text"><strong>1PM – 1AM</strong> Daily</div></div>
+        <div class="h-stat"><div class="h-stat-icon">🛵</div><div class="h-stat-text"><strong>Free</strong> Delivery</div></div>
+        <div class="h-stat"><div class="h-stat-icon">📍</div><div class="h-stat-text">College Road, <strong>Daska</strong></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Iftar Banner -->
+  <div class="iftar-banner" onclick="showPage('iftar')" style="margin:14px 16px;">
+    <div class="iftar-glow"></div>
+    <div class="iftar-icon">🌙</div>
+    <div class="iftar-text">
+      <div class="iftar-label">✨ Ramadan Special</div>
+      <div class="iftar-title">IFTAR PLATTER</div>
+      <div class="iftar-price">Dates · Chaat · Wings · Rolls & more — <strong>Rs. 1,050</strong></div>
+    </div>
+    <div class="iftar-arrow">›</div>
+  </div>
+
+  <!-- Search -->
+  <div id="search-section" class="search-wrap">
+    <div class="search-box">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9A8F7A" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input id="search-input" placeholder="Search pizzas, burgers, BBQ..." oninput="handleSearch(this.value)" />
+      <span id="search-clear" onclick="clearSearch()" style="display:none;cursor:pointer;color:var(--text-muted);font-size:.8rem;">✕</span>
+    </div>
+  </div>
+
+  <!-- Search Results -->
+  <div id="search-results" style="display:none;padding:0 12px 80px;max-width:480px;margin:0 auto;"></div>
+
+  <!-- Home menu nav -->
+  <div id="home-menu-nav">
+    <div class="home-section-label">
+      <div class="hsl-line"></div>
+      <div class="hsl-text">Our Menu</div>
+      <div class="hsl-line" style="background:linear-gradient(270deg,rgba(214,40,40,0.4),transparent);"></div>
+    </div>
+    <!-- TWO-PANEL LAYOUT -->
+    <div id="menu-layout">
+      <div id="cat-sidebar"></div>
+      <div id="menu-panel"></div>
+    </div>
+  </div>
+</div>
+
+<!-- CART PAGE -->
+<div class="page" id="page-cart">
+  <div class="page-header">
+    <div class="back-btn" onclick="showPage('home')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
+    </div>
+    <div>
+      <div class="page-title">Your Order 🛒</div>
+      <div class="page-subtitle" id="cart-subtitle">0 items</div>
+    </div>
+  </div>
+  <div id="cart-content"></div>
+</div>
+
+<!-- IFTAR PAGE -->
+<div class="page" id="page-iftar">
+  <div class="page-header">
+    <div class="back-btn" onclick="showPage('home')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
+    </div>
+    <div>
+      <div class="page-title">Iftar Platter 🌙</div>
+      <div class="page-subtitle">Ramadan Special</div>
+    </div>
+  </div>
+  <div class="iftar-page">
+    <div class="iftar-hero">
+      <div class="iftar-hero-title">IFTAR PLATTER</div>
+      <div class="iftar-hero-sub">Mr. Pizza Ramadan Special</div>
+      <div class="iftar-includes">
+        <span class="iftar-tag">🌴 Dates</span>
+        <span class="iftar-tag">🥗 Fruit Chaat</span>
+        <span class="iftar-tag">🫘 Chana Chaat</span>
+        <span class="iftar-tag">🍗 Chicken Wings</span>
+        <span class="iftar-tag">🥟 Spring Roll</span>
+        <span class="iftar-tag">🥟 Chicken Samosa</span>
+        <span class="iftar-tag">🧅 Pakora</span>
+        <span class="iftar-tag">🥤 Rooh Afza</span>
+        <span class="iftar-tag">🧊 Flavoured Slush</span>
+      </div>
+      <div class="iftar-price-badge">Rs. 1,050</div>
+      <div class="iftar-book-btn" onclick="bookIftarWA()">📲 Book via WhatsApp</div>
+    </div>
+    <div style="font-size:.72rem;color:var(--text-muted);text-align:center;line-height:1.7;">
+      A complete Iftar experience for the whole family.<br>
+      Call or WhatsApp to reserve your platter in advance.<br>
+      <strong style="color:var(--yellow);">0300-1188459 · 0347-6661140</strong>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT PAGE -->
+<div class="page" id="page-about">
+  <div class="page-header">
+    <div class="back-btn" onclick="showPage('home')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
+    </div>
+    <div>
+      <div class="page-title">About Us 🍕</div>
+      <div class="page-subtitle">Mr. Pizza Family Restaurant</div>
+    </div>
+  </div>
+  <div style="padding:0 16px;max-width:480px;margin:0 auto;">
+    <div class="about-card">
+      <div class="about-section-title">📍 Find Us</div>
+      <div class="info-row"><div class="info-icon">📍</div><div><div class="info-label">Address</div><div class="info-value">Opp. Faisal Bank, College Road, Daska</div></div></div>
+      <div class="info-row"><div class="info-icon">🕐</div><div><div class="info-label">Hours</div><div class="info-value">1:00 PM – 1:00 AM · Daily</div></div></div>
+      <div class="info-row"><div class="info-icon">🛵</div><div><div class="info-label">Delivery</div><div class="info-value">Free Home Delivery Available</div></div></div>
+    </div>
+    <div class="about-card">
+      <div class="about-section-title">📞 Contact Us</div>
+      <div class="contact-btn contact-wa" onclick="window.open('https://wa.me/923001188459','_blank')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+        WhatsApp: 0300-1188459
+      </div>
+      <div class="contact-btn contact-call" onclick="window.open('tel:+923001188459')">
+        📞 Call: 0300-1188459
+      </div>
+      <div class="contact-btn contact-call" onclick="window.open('tel:+923476661140')">
+        📞 Call: 0347-6661140
+      </div>
+    </div>
+    <div class="about-card" style="text-align:center;">
+      <div style="font-family:'Bangers',cursive;font-size:1.4rem;color:var(--yellow);letter-spacing:2px;margin-bottom:6px;">MR. PIZZA</div>
+      <div style="font-size:.72rem;color:var(--text-muted);line-height:1.7;">Your go-to family restaurant in Daska for fresh pizzas, sizzling BBQ, juicy burgers, and refreshing drinks. We believe every meal is a memory worth making.</div>
+      <div style="margin-top:10px;font-size:.65rem;color:var(--red2);font-style:italic;">"Every Slice is a Story." 🍕</div>
+    </div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div id="bottom-nav">
+  <div class="nav-inner">
+    <div class="nav-item active" id="nav-home" onclick="showPage('home')">
+      <div class="nav-icon">🏠</div>
+      <div class="nav-label">Home</div>
+      <div class="nav-dot"></div>
+    </div>
+    <div class="nav-item" id="nav-cart" onclick="showPage('cart')">
+      <div class="nav-icon">🛒</div>
+      <div class="nav-label">Cart</div>
+      <div class="nav-dot"></div>
+    </div>
+    <div class="nav-item" id="nav-iftar" onclick="showPage('iftar')">
+      <div class="nav-icon">🌙</div>
+      <div class="nav-label">Iftar</div>
+      <div class="nav-dot"></div>
+    </div>
+    <div class="nav-item" id="nav-about" onclick="showPage('about')">
+      <div class="nav-icon">ℹ️</div>
+      <div class="nav-label">About</div>
+      <div class="nav-dot"></div>
+    </div>
+  </div>
+</div>
+
+<!-- CHECKOUT OVERLAY -->
+<div id="checkout-overlay" onclick="handleCheckoutClick(event)">
+  <div class="checkout-sheet">
+    <div class="co-handle"></div>
+    <div class="co-title">Checkout 🧾</div>
+    <div class="co-subtitle">How would you like your order?</div>
+
+    <!-- Order Type Tabs -->
+    <div class="ot-tabs">
+      <div class="ot-tab active" id="co-tab-dine-in" onclick="setCheckoutType('dine-in')">
+        <div class="ot-tab-icon">🪑</div>
+        <div class="ot-tab-label">Dine In</div>
+        <div class="ot-tab-sub">Eat here</div>
+      </div>
+      <div class="ot-tab" id="co-tab-pickup" onclick="setCheckoutType('pickup')">
+        <div class="ot-tab-icon">🛍️</div>
+        <div class="ot-tab-label">Pick Up</div>
+        <div class="ot-tab-sub">Take away</div>
+      </div>
+      <div class="ot-tab" id="co-tab-delivery" onclick="setCheckoutType('delivery')">
+        <div class="ot-tab-icon">🛵</div>
+        <div class="ot-tab-label">Delivery</div>
+        <div class="ot-tab-sub">Free 🎉</div>
+      </div>
+    </div>
+
+    <!-- Dynamic form fields -->
+    <div id="co-form-fields"></div>
+
+    <div class="co-divider"></div>
+
+    <!-- Order Summary -->
+    <div class="co-section-label">Order Summary</div>
+    <div id="co-summary"></div>
+
+    <!-- WhatsApp Button -->
+    <a href="javascript:void(0)" onclick="placeOrderWA()" style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;margin:14px 0 0;background:linear-gradient(135deg,#128C7E,#25D366);border-radius:16px;padding:16px 20px;font-weight:800;font-size:1rem;color:#fff;cursor:pointer;box-shadow:0 6px 25px rgba(37,211,102,0.45);text-decoration:none;letter-spacing:.5px;transition:transform .15s,box-shadow .15s;" ontouchstart="this.style.transform='scale(.97)'" ontouchend="this.style.transform='scale(1)'">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+      Send Order
+    </a>
+  </div>
+</div>
+
+<!-- RESERVATION OVERLAY -->
+<div id="res-overlay" onclick="handleResClick(event)">
+  <div class="res-sheet" style="max-width:480px;">
+    <div class="res-handle"></div>
+    <div class="res-title">Book a Table 📅</div>
+    <div class="res-subtitle">Reserve your spot at Mr. Pizza, Daska</div>
+    <div class="res-grid">
+      <div class="cf-field"><label class="cf-label">Your Name *</label><input class="cf-input" id="res-name" placeholder="Full name" /></div>
+      <div class="cf-field"><label class="cf-label">Phone *</label><input class="cf-input" id="res-phone" placeholder="03xx-xxxxxxx" /></div>
+      <div class="cf-field"><label class="cf-label">Guests *</label>
+        <select class="cf-input" id="res-guests">
+          <option value="">Select</option>
+          <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8+</option>
+        </select>
+      </div>
+      <div class="cf-field"><label class="cf-label">Date *</label><input class="cf-input" id="res-date" type="date" /></div>
+      <div class="cf-field"><label class="cf-label">Time *</label><input class="cf-input" id="res-time" type="time" /></div>
+      <div class="cf-field"><label class="cf-label">Meal</label>
+        <select class="cf-input" id="res-meal">
+          <option value="lunch">Lunch</option>
+          <option value="dinner" selected>Dinner</option>
+          <option value="iftar">Iftar</option>
+        </select>
+      </div>
+    </div>
+    <div class="cf-field" style="margin-top:6px;"><label class="cf-label">Special Notes</label><input class="cf-input" id="res-notes" placeholder="Any requests..." /></div>
+    <div class="res-submit" onclick="submitReservation()">📲 Send via WhatsApp</div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script>
+const WA1 = '923001188459';
+const WA2 = '923476661140';
+
+// ─────────────────────────────
+// MENU DATA
+// ─────────────────────────────
+const menuData = {
+  "🍕 Special Pizza": [
+    {id:'sp1',name:"Mr. Special",desc:"Our signature masterpiece pizza",sizes:{Small:750,Medium:1300,Large:1950,XL:2550},badge:'best',emoji:'🍕'},
+    {id:'sp2',name:"Royal Supreme",desc:"Loaded with premium toppings",sizes:{Small:750,Medium:1300,Large:1950,XL:2550},badge:'best',emoji:'🍕'},
+    {id:'sp3',name:"Borne Fire",desc:"Spicy & smoky fire blend",sizes:{Small:750,Medium:1300,Large:1950,XL:2550},badge:'spicy',emoji:'🔥'},
+    {id:'sp4',name:"Click On",desc:"A crowd-pleasing classic",sizes:{Small:750,Medium:1300,Large:1950,XL:2550},emoji:'🍕'},
+    {id:'sp5',name:"Donnar Pizza",desc:"Turkish-inspired donor style",sizes:{Medium:1500,Large:2000},emoji:'🍕'},
+    {id:'sp6',name:"Royal Crust",desc:"Thick royal stuffed crust",sizes:{Medium:1400,Large:2100,XL:2550},badge:'new',emoji:'🍕'},
+    {id:'sp7',name:"Behari Kabab",desc:"Spiced behari kabab topping",sizes:{Medium:1500,Large:2100,XL:2900},badge:'spicy',emoji:'🍕'},
+    {id:'sp8',name:"Makhni Pizza",desc:"Rich buttery makhni sauce",sizes:{Medium:1500,Large:2100,XL:2650},emoji:'🍕'},
+    {id:'sp9',name:"Mr Sp Crown",desc:"Crown-style stuffed edges",sizes:{Medium:1600,Large:2600},badge:'new',emoji:'👑'},
+    {id:'sp10',name:"Mr Sp Sensation",desc:"A true taste sensation",sizes:{Medium:1600,Large:2600},emoji:'🍕'},
+  ],
+  "🍕 Regular Pizza": [
+    {id:'rp1',name:"Chicken Tikka",desc:"Classic tikka with peppers",sizes:{Small:700,Medium:1200,Large:1850,XL:2450},badge:'best',emoji:'🍕'},
+    {id:'rp2',name:"Fajita",desc:"Mexican-style fajita delight",sizes:{Small:700,Medium:1200,Large:1850,XL:2450},emoji:'🍕'},
+    {id:'rp3',name:"Cheese Lover",desc:"Extra cheese all the way",sizes:{Small:700,Medium:1200,Large:1850,XL:2450},emoji:'🧀'},
+    {id:'rp4',name:"Spice On",desc:"For the spice lovers 🌶️",sizes:{Small:700,Medium:1200,Large:1850,XL:2450},badge:'spicy',emoji:'🌶️'},
+    {id:'rp5',name:"Chicken Supreme",desc:"Supreme chicken loaded pizza",sizes:{Small:700,Medium:1200,Large:1850,XL:2450},emoji:'🍕'},
+    {id:'rp6',name:"Sicilian",desc:"Italian-style thin base",sizes:{Small:700,Medium:1200,Large:1850,XL:2450},emoji:'🍕'},
+    {id:'rp7',name:"Euro",desc:"European style premium pizza",sizes:{Small:700,Medium:1200,Large:1850,XL:2450},emoji:'🍕'},
+    {id:'rp8',name:"Veggie Lover",desc:"Fresh garden vegetables",sizes:{Small:700,Medium:1200,Large:1850,XL:2450},emoji:'🥦'},
+  ],
+  "🧀 Stuffer Pizza": [
+    {id:'stf1',name:"Chicken Stuffer",desc:"Stuffed crust packed with chicken",sizes:{XL:2200},badge:'best',emoji:'🍕'},
+    {id:'stf2',name:"Cheese Stuffer",desc:"Oozing cheese stuffed crust",sizes:{XL:2200},emoji:'🧀'},
+    {id:'stf3',name:"Chicken & Cheese",desc:"Double stuffed perfection",sizes:{XL:2400},badge:'new',emoji:'🍕'},
+    {id:'stf4',name:"Kabab Stuffer",desc:"Kabab-filled stuffed crust",sizes:{XL:2400},emoji:'🍕'},
+  ],
+  "🍔 Burgers": [
+    {id:'b1',name:"Zinger Burger",desc:"Crispy zinger patty with sauce",price:399,badge:'best',emoji:'🍔'},
+    {id:'b2',name:"Mr. Special Zinger",desc:"Our loaded special zinger",price:499,badge:'best',emoji:'🍔'},
+    {id:'b3',name:"BBQ Special Burger",desc:"Smoky BBQ sauce burger",price:650,emoji:'🍔'},
+    {id:'b4',name:"Honey Mustard Burger",desc:"Sweet honey mustard blend",price:599,emoji:'🍔'},
+    {id:'b5',name:"Mushroom Burger",desc:"Sautéed mushroom topped",price:550,emoji:'🍔'},
+    {id:'b6',name:"Fish Burger with Fries",desc:"Crispy fish fillet & fries",price:650,emoji:'🐟'},
+    {id:'b7',name:"Patty Burger",desc:"Classic juicy patty",price:350,emoji:'🍔'},
+    {id:'b8',name:"BBQ Burger",desc:"BBQ glazed patty burger",price:399,emoji:'🍔'},
+  ],
+  "🍕 Pizza Burgers": [
+    {id:'pb1',name:"Pizza Zinger Burger",desc:"Pizza meets zinger burger",price:699,badge:'new',emoji:'🍕'},
+    {id:'pb2',name:"Pizza Petty Burger",desc:"Pizza-flavoured patty burger",price:600,emoji:'🍕'},
+    {id:'pb3',name:"Pizza Double MAC",desc:"Double stacked pizza-style",price:750,badge:'best',emoji:'🍕'},
+  ],
+  "🔥 Hot Deals": [
+    {id:'d1',name:"Deal 1",desc:"1 Small Pizza + 1 Mr Special Platter + 500ml Drink",price:1500,badge:'hot',emoji:'🔥'},
+    {id:'d2',name:"Deal 2",desc:"1 Medium Pizza + 1 Pasta + 500ml Drink",price:2000,badge:'hot',emoji:'🔥'},
+    {id:'d3',name:"Deal 3",desc:"1 Large Pizza + 1 Fries + 1 Ltr Drink",price:2200,badge:'hot',emoji:'🔥'},
+    {id:'d4',name:"Deal 4",desc:"2 Medium Pizza + 1 Fries + 1.5 Ltr Drink",price:2900,badge:'hot',emoji:'🔥'},
+    {id:'d5',name:"Deal 5",desc:"1 Medium + 1 Large Pizza + 1 Fries + 1.5 Ltr Drink",price:3500,badge:'hot',emoji:'🔥'},
+    {id:'d6',name:"Deal 6",desc:"2 Large Pizza + 1 Fries + 1.5 Ltr Drink",price:4000,badge:'hot',emoji:'🔥'},
+    {id:'d7',name:"Deal 7",desc:"1 Small Pizza + 2 Zinger Burger + 2 Can Drink",price:1600,badge:'hot',emoji:'🔥'},
+    {id:'d8',name:"Deal 8",desc:"4 Zinger Burger + 2 Regular Fries + 1.5 Ltr Drink",price:2000,badge:'hot',emoji:'🔥'},
+    {id:'d9',name:"Deal 9",desc:"6 Zinger Burger + 2 Regular Fries + 1.5 Ltr Drink",price:2850,badge:'hot',emoji:'🔥'},
+    {id:'d10',name:"Deal 10",desc:"2 Large Pizza + 2 Fries + 1.5 Ltr Drink + 4 Patty Burger",price:5600,badge:'hot',emoji:'🔥'},
+    {id:'d11',name:"Deal 11",desc:"1 XL Pizza + 1 Regular Fries + 1.5 Ltr Drink",price:2850,badge:'hot',emoji:'🔥'},
+    {id:'d12',name:"Deal 12",desc:"2 XL Pizza + 2 Regular Fries + 2x 1.5 Ltr Drink",price:5700,badge:'hot',emoji:'🔥'},
+  ],
+  "🍗 BBQ": [
+    {id:'bbq1',name:"Chicken Cheese Kabab",desc:"Juicy cheese-stuffed kababs",price:995,qty:'4 pc',badge:'best',emoji:'🍢'},
+    {id:'bbq2',name:"Chicken Kabab",desc:"Classic flame-grilled kababs",price:795,qty:'4 pc',emoji:'🍢'},
+    {id:'bbq3',name:"Beef Seekh Kabab",desc:"Spiced minced beef seekh",price:895,qty:'4 pc',emoji:'🍢'},
+    {id:'bbq4',name:"Mutton Kabab",desc:"Tender mutton kababs",price:1195,qty:'4 pc',emoji:'🍢'},
+    {id:'bbq5',name:"Malai Boti",desc:"Creamy marinated chicken",price:1195,qty:'10 pc',badge:'best',emoji:'🍗'},
+    {id:'bbq6',name:"Chicken Boti",desc:"Grilled chicken boti",price:950,qty:'10 pc',emoji:'🍗'},
+    {id:'bbq7',name:"Heralli Boti",desc:"Herb marinated grill boti",price:1099,qty:'10 pc',emoji:'🍗'},
+    {id:'bbq8',name:"BBQ Grill Fish",desc:"Whole grilled fish BBQ style",sizes:{'1 kg':1099,'2 kg':2099},emoji:'🐟'},
+    {id:'bbq9',name:"Fish Tikka",desc:"Marinated fish tikka pieces",price:899,qty:'4 pc',emoji:'🐟'},
+  ],
+  "🍗 Broast": [
+    {id:'br1',name:"Quarter Broast",desc:"1 Leg, 1 Thigh, 1 Bun, Garlic Dip, Fries",price:700,emoji:'🍗'},
+    {id:'br2',name:"Half Broast",desc:"2 Leg, 2 Thigh, 3 Bun, Garlic Dip, Fries",price:1100,emoji:'🍗'},
+    {id:'br3',name:"Full Broast",desc:"4 Leg, 4 Thigh, 6 Bun, Garlic Dip, Fries",price:1800,badge:'best',emoji:'🍗'},
+    {id:'br4',name:"Maza Deal",desc:"2 Leg 2 Thigh 2 Bun Dip Fries 500ml Drink",price:1300,badge:'hot',emoji:'🔥'},
+    {id:'br5',name:"Couple Deal",desc:"4 Leg 4 Thigh 3 Bun Dip Fries 1.5Ltr Drink",price:2000,badge:'hot',emoji:'💑'},
+    {id:'br6',name:"Family Deal",desc:"8 Leg 8 Thigh 4 Bun Dip Fries",price:3400,badge:'hot',emoji:'👨‍👩‍👧‍👦'},
+    {id:'br7',name:"Jumbo Deal",desc:"16 Leg 16 Thigh 8 Bun Dip Fries",price:6800,badge:'hot',emoji:'🏆'},
+  ],
+  "🍢 BBQ Platters": [
+    {id:'bp1',name:"BBQ For 1",desc:"Chicken/Beef Kabab, Malai Boti, Chicken Boti, Nan/Rice, Salad, Drink",price:1299,emoji:'🍢'},
+    {id:'bp2',name:"BBQ For 2",desc:"Tikka, Kabab, Malai Boti, Fish, Nan/Rice, Salad, 1L Drink",price:2999,badge:'best',emoji:'🍢'},
+    {id:'bp3',name:"BBQ For 4",desc:"Tikka, Kabab, Mutton Kabab, Malai Boti, Fish, Nan/Rice, Salad, 1.5L Drink",price:5600,emoji:'🍢'},
+  ],
+  "🥟 Rolls": [
+    {id:'r1',name:"Spin Roll",desc:"Our signature spin roll",price:700,emoji:'🥟'},
+    {id:'r2',name:"Mr Special Roll",desc:"Loaded with our special filling",price:700,badge:'best',emoji:'🥟'},
+    {id:'r3',name:"Crunchy Roll",desc:"Extra crispy crunchy shell",price:700,emoji:'🥟'},
+    {id:'r4',name:"Nawabi Roll",desc:"Rich nawabi style filling",price:700,emoji:'🥟'},
+  ],
+  "🫓 Pratha Rolls": [
+    {id:'pr1',name:"Zinger Cheese Pratha",desc:"Cheesy zinger in pratha",price:450,emoji:'🫓'},
+    {id:'pr2',name:"Zinger Pratha",desc:"Crispy zinger wrapped in pratha",price:400,emoji:'🫓'},
+    {id:'pr3',name:"Kabab Pratha",desc:"Juicy kabab in pratha",price:500,emoji:'🫓'},
+    {id:'pr4',name:"Chicken Pratha",desc:"Tender chicken pratha roll",price:450,emoji:'🫓'},
+    {id:'pr5',name:"Pizza Pratha",desc:"Pizza-filled pratha roll",price:700,badge:'new',emoji:'🍕'},
+  ],
+  "🌯 Shawarma & Wraps": [
+    {id:'sw1',name:"Chicken Shawarma",desc:"Classic chicken shawarma",price:299,badge:'best',emoji:'🌯'},
+    {id:'sw2',name:"Cheesy Shawarma",desc:"Extra cheese loaded",price:330,emoji:'🌯'},
+    {id:'sw3',name:"Zinger Shawarma",desc:"Zinger-style spicy shawarma",price:350,emoji:'🌯'},
+    {id:'sw4',name:"Platter Shawarma",desc:"Full shawarma platter",price:549,emoji:'🌯'},
+    {id:'sw5',name:"Trottila Wrap",desc:"Soft tortilla chicken wrap",price:500,emoji:'🌯'},
+    {id:'sw6',name:"Chicken Grill Wrap",desc:"Grilled chicken in wrap",price:500,emoji:'🌯'},
+  ],
+  "🍟 Fries": [
+    {id:'f1',name:"Loaded Fries",desc:"Fully loaded with toppings",sizes:{'Half':399,'Full':799},badge:'best',emoji:'🍟'},
+    {id:'f2',name:"Jalapeno Cheese Fries",desc:"Hot jalapeño with cheese",price:550,badge:'spicy',emoji:'🍟'},
+    {id:'f3',name:"Garlic Mayo Fries",desc:"Creamy garlic mayo drizzle",price:350,emoji:'🍟'},
+    {id:'f4',name:"Plain Fries",desc:"Crispy golden plain fries",price:299,emoji:'🍟'},
+    {id:'f5',name:"Regular Fries",desc:"Classic salted fries",price:299,emoji:'🍟'},
+  ],
+  "🍗 Appetizers": [
+    {id:'ap1',name:"Buffalo Wings",desc:"Tangy buffalo sauce wings",price:599,qty:'6 pc',badge:'best',emoji:'🍗'},
+    {id:'ap2',name:"BBQ Wings",desc:"Smoky BBQ glazed wings",price:499,qty:'6 pc',emoji:'🍗'},
+    {id:'ap3',name:"Crispy Wings",desc:"Extra crispy fried wings",price:400,qty:'6 pc',emoji:'🍗'},
+    {id:'ap4',name:"Peri Peri Wings",desc:"African peri peri spice",price:500,qty:'6 pc',badge:'spicy',emoji:'🌶️'},
+    {id:'ap5',name:"Hot Wings",desc:"Super hot & spicy wings",price:500,qty:'10 pc',badge:'spicy',emoji:'🔥'},
+    {id:'ap6',name:"Chicken Strips",desc:"Crispy tender chicken strips",price:550,qty:'3 pc',emoji:'🍗'},
+    {id:'ap7',name:"Finger Fish",desc:"Golden battered fish fingers",price:650,qty:'4 pc',emoji:'🐟'},
+    {id:'ap8',name:"Fish N Chips",desc:"Classic fish with chips",price:950,qty:'3 pc',emoji:'🐟'},
+  ],
+  "🍝 Pasta & Noodles": [
+    {id:'pa1',name:"Fettuccine Alfredo",desc:"Creamy white sauce pasta",price:750,badge:'best',emoji:'🍝'},
+    {id:'pa2',name:"Chicken Mushroom",desc:"Chicken in mushroom sauce",price:599,emoji:'🍝'},
+    {id:'pa3',name:"Penne Arrabbiata",desc:"Spicy tomato penne pasta",price:650,badge:'spicy',emoji:'🍝'},
+    {id:'pa4',name:"Mr Special Chowmein",desc:"Our special chowmein noodles",price:899,badge:'best',emoji:'🍜'},
+    {id:'pa5',name:"Chicken Chowmein",desc:"Chicken stir-fried noodles",price:799,emoji:'🍜'},
+    {id:'pa6',name:"Veggie Chowmein",desc:"Vegetable stir-fried noodles",price:699,emoji:'🍜'},
+    {id:'pa7',name:"Yakhni Pulao",desc:"Fragrant rice with broth",price:450,emoji:'🍚'},
+  ],
+  "🥗 Salads & Soups": [
+    {id:'sal1',name:"Fresh Salad",desc:"Crisp fresh garden salad",price:180,emoji:'🥗'},
+    {id:'sal2',name:"Russian Salad",desc:"Classic Russian salad",price:450,emoji:'🥗'},
+    {id:'sal3',name:"Fruit Salad + Ice Cream",desc:"Fresh fruit with ice cream",price:600,emoji:'🍓'},
+    {id:'soup1',name:"Special Soup",desc:"Our chef's special soup",sizes:{'Single':649,'Family':1249},badge:'best',emoji:'🍲'},
+    {id:'soup2',name:"Hot & Sour Soup",desc:"Classic hot & sour",sizes:{'Single':599,'Family':1099},emoji:'🍲'},
+    {id:'soup3',name:"Chicken Corn Soup",desc:"Warm chicken corn broth",sizes:{'Single':599,'Family':1099},emoji:'🍲'},
+  ],
+  "☕ Hot Coffee": [
+    {id:'hc1',name:"Cappuccino",desc:"Classic frothy cappuccino",price:500,emoji:'☕'},
+    {id:'hc2',name:"Café Latte",desc:"Smooth espresso with milk",price:500,emoji:'☕'},
+    {id:'hc3',name:"Americano",desc:"Bold black americano",price:400,emoji:'☕'},
+    {id:'hc4',name:"Espresso",desc:"Strong single shot",price:250,emoji:'☕'},
+    {id:'hc5',name:"Mocha",desc:"Chocolate coffee blend",price:550,emoji:'☕'},
+    {id:'hc6',name:"Caramel Coffee",desc:"Sweet caramel coffee",price:500,emoji:'☕'},
+    {id:'hc7',name:"Hot Chocolate",desc:"Rich creamy hot chocolate",price:550,emoji:'🍫'},
+  ],
+  "🧋 Cold Drinks": [
+    {id:'cd1',name:"Mr. Special Drink",desc:"Our secret special mocktail",price:550,badge:'best',emoji:'🥤'},
+    {id:'cd2',name:"Mint Margarita",desc:"Refreshing mint margarita",price:299,emoji:'🍹'},
+    {id:'cd3',name:"Blue Lagoon",desc:"Cool blue lagoon mocktail",price:499,emoji:'🔵'},
+    {id:'cd4',name:"Mango Zingo",desc:"Tropical mango fizz",price:450,emoji:'🥭'},
+    {id:'cd5',name:"Pina Colada",desc:"Tropical pina colada blend",price:500,emoji:'🍍'},
+    {id:'cd6',name:"Mint Mojito",desc:"Classic fresh mint mojito",price:450,badge:'best',emoji:'🌿'},
+    {id:'cd7',name:"Strawberry Mojito",desc:"Sweet strawberry mojito",price:450,emoji:'🍓'},
+    {id:'cd8',name:"Mango Mojito",desc:"Tropical mango mojito",price:450,emoji:'🥭'},
+    {id:'cd9',name:"Mr. Special Shake",desc:"Signature milk shake",price:550,badge:'best',emoji:'🥛'},
+    {id:'cd10',name:"Nutella Shake",desc:"Rich Nutella milkshake",price:550,emoji:'🍫'},
+    {id:'cd11',name:"Oreo Shake",desc:"Creamy Oreo milkshake",price:550,emoji:'🍪'},
+    {id:'cd12',name:"Mango Smoothie",desc:"Fresh mango smoothie",price:500,emoji:'🥭'},
+    {id:'cd13',name:"Peach Slush",desc:"Icy peach slush",price:400,emoji:'🍑'},
+    {id:'cd14',name:"Mango Slush",desc:"Tropical mango slush",price:400,emoji:'🥭'},
+    {id:'cd15',name:"Peach Ice Tea",desc:"Chilled peach iced tea",price:450,emoji:'🍑'},
+    {id:'cd16',name:"Oreo Cold Coffee",desc:"Oreo blended cold coffee",price:500,emoji:'🍪'},
+    {id:'cd17',name:"Caramel Ice Latte",desc:"Iced caramel latte",price:450,emoji:'☕'},
+    {id:'cd18',name:"Soft Drink Tin",desc:"Can of soft drink",price:130,emoji:'🥤'},
+    {id:'cd19',name:"Sweet Lassi",desc:"Traditional sweet lassi",price:150,emoji:'🥛'},
+    {id:'cd20',name:"Mango Lassi",desc:"Rich mango lassi",price:200,emoji:'🥭'},
+  ],
+  "🍨 Desserts": [
+    {id:'des1',name:"Ice Cream (1 Scoop)",desc:"Chocolate/Strawberry/Vanilla",price:160,emoji:'🍦'},
+    {id:'des2',name:"Ice Cream (2 Scoops)",desc:"Chocolate/Strawberry/Vanilla",price:300,emoji:'🍦'},
+    {id:'des3',name:"Ice Cream (3 Scoops)",desc:"Chocolate/Strawberry/Vanilla",price:430,emoji:'🍦'},
+    {id:'des4',name:"Walnut Brownie",desc:"Warm walnut brownie + ice cream",price:550,badge:'best',emoji:'🍫'},
+    {id:'des5',name:"Cake Alaska",desc:"Baked alaska with ice cream",price:550,emoji:'🎂'},
+    {id:'des6',name:"Molten Lava Cake",desc:"Gooey chocolate lava cake",price:499,badge:'best',emoji:'🍫'},
+  ],
+  "🥖 Naan & Sides": [
+    {id:'nn1',name:"Roghni Naan",desc:"Soft sesame topped naan",price:100,emoji:'🥖'},
+    {id:'nn2',name:"Garlic Naan",desc:"Buttery garlic naan",price:120,emoji:'🥖'},
+    {id:'nn3',name:"Plain Naan",desc:"Fresh plain naan",price:80,emoji:'🥖'},
+    {id:'nn4',name:"Mint Raita",desc:"Cooling mint raita",price:200,emoji:'🥣'},
+    {id:'nn5',name:"Zeera Raita",desc:"Cumin spiced raita",price:150,emoji:'🥣'},
+    {id:'nn6',name:"Mayo Dip",desc:"Creamy mayo dip",price:70,emoji:'🍶'},
+    {id:'nn7',name:"Garlic Dip",desc:"Garlic sauce dip",price:70,emoji:'🍶'},
+    {id:'nn8',name:"Club Sandwich",desc:"Classic layered club sandwich",price:600,emoji:'🥪'},
+  ],
+};
+
+// Flatten all items for search
+const allItems = [];
+Object.entries(menuData).forEach(([cat,items])=>{
+  items.forEach(i=>{ allItems.push({...i,category:cat}); });
+});
+
+let cart = [];
+let currentOrderType = 'dine-in';
+let currentCategory = null;
+
+// ─────────────────────────────
+// PAGE NAV
+// ─────────────────────────────
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const navEl = document.getElementById('nav-'+name);
+  if(navEl) navEl.classList.add('active');
+  window.scrollTo(0,0);
+  if(name==='cart') renderCart();
+}
+
+// ─────────────────────────────
+// INIT MENU — TAB SWITCHING
+// ─────────────────────────────
+let activeCat = null;
+
+function initMenu() {
+  const cats = Object.keys(menuData);
+  const sidebar = document.getElementById('cat-sidebar');
+
+  // Build sidebar items
+  cats.forEach((cat, i) => {
+    const emoji = cat.split(' ')[0];
+    const label = cat.split(' ').slice(1).join(' ');
+    const item = document.createElement('div');
+    item.className = 'sidebar-item';
+    item.dataset.cat = cat;
+    item.innerHTML = `<div class="sidebar-emoji">${emoji}</div><div class="sidebar-label">${label}</div>`;
+    item.onclick = () => switchCategory(cat);
+    sidebar.appendChild(item);
+  });
+
+  // Show first category by default
+  switchCategory(cats[0]);
+}
+
+function switchCategory(cat) {
+  activeCat = cat;
+  const panel = document.getElementById('menu-panel');
+  const sidebar = document.getElementById('cat-sidebar');
+
+  // Update sidebar active state
+  sidebar.querySelectorAll('.sidebar-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.cat === cat);
+  });
+
+  // Scroll sidebar to keep active item visible
+  const activeEl = sidebar.querySelector('.sidebar-item.active');
+  if (activeEl) activeEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+
+  // Render only this category's items in the panel
+  const items = menuData[cat];
+  const emoji = cat.split(' ')[0];
+  const label = cat.split(' ').slice(1).join(' ');
+  const isDeal = cat.includes('Hot Deals');
+
+  let itemsHTML = '';
+  if (isDeal) {
+    itemsHTML = `<div style="padding:8px 8px 16px;">${items.map(i => renderDealCard(i)).join('')}</div>`;
+  } else {
+    itemsHTML = `<div class="menu-grid">${items.map(i => renderCard(i, cat)).join('')}</div>`;
+  }
+
+  panel.innerHTML = `
+    <div class="menu-cat-header">
+      <div class="menu-cat-header-emoji">${emoji}</div>
+      <div class="menu-cat-header-name">${label}</div>
+      <div class="menu-cat-count">${items.length} items</div>
+    </div>
+    ${itemsHTML}`;
+
+  // Reset panel scroll to top
+  panel.scrollTop = 0;
+}
+
+function selectCategory(cat) { switchCategory(cat); }
+function renderMenuSection(cat) { switchCategory(cat); }
+
+function renderCard(item, cat) {
+  const hasSizes = item.sizes;
+  const price = hasSizes ? Math.min(...Object.values(item.sizes)) : item.price;
+  const priceLabel = hasSizes ? `From Rs. ${price.toLocaleString()}` : `Rs. ${price.toLocaleString()}`;
+  const badge = item.badge ? `<div class="card-badge badge-${item.badge}">${getBadgeLabel(item.badge)}</div>` : '';
+  const qtyLabel = item.qty ? `<span>${item.qty}</span>` : '';
+  return `
+  <div class="menu-card" onclick="handleCardClick('${item.id}')">
+    <div class="card-img-wrap">
+      <div class="card-img-placeholder">${item.emoji}</div>
+      ${badge}
+    </div>
+    <div class="card-body">
+      <div class="card-name">${item.name}</div>
+      <div class="card-desc">${item.desc}</div>
+      <div class="card-footer">
+        <div class="card-price">${priceLabel} ${qtyLabel}</div>
+        <div class="add-btn" onclick="event.stopPropagation();handleCardClick('${item.id}')">+</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderDealCard(item) {
+  return `
+  <div class="deal-card" onclick="addToCart(${JSON.stringify(item).replace(/"/g,'&quot;')}, null, ${item.price})">
+    <div class="deal-tag">🔥 Hot Deal</div>
+    <div class="deal-name">${item.name}</div>
+    <div class="deal-desc">${item.desc}</div>
+    <div class="deal-footer">
+      <div class="deal-price">Rs. ${item.price.toLocaleString()}</div>
+      <div class="deal-add">Add to Cart</div>
+    </div>
+  </div>`;
+}
+
+function getBadgeLabel(badge) {
+  const map = {best:'⭐ Bestseller',new:'✨ New',spicy:'🌶️ Spicy',hot:'🔥 Deal'};
+  return map[badge]||badge;
+}
+
+function handleCardClick(id) {
+  const item = allItems.find(i=>i.id===id);
+  if(!item) return;
+  if(item.sizes) {
+    showSizePicker(item);
+  } else if(item.category && item.category.includes('Desserts') && item.id.startsWith('des') && item.id !== 'des4' && item.id !== 'des5' && item.id !== 'des6') {
+    showIceCreamPicker(item);
+  } else {
+    addToCart(item, null, item.price);
+  }
+}
+
+// ─────────────────────────────
+// ICE CREAM FLAVOUR PICKER
+// ─────────────────────────────
+const iceCreamFlavours = [
+  {id:'choc', label:'Chocolate', emoji:'🍫', color:'#6B2D0F'},
+  {id:'straw', label:'Strawberry', emoji:'🍓', color:'#C0392B'},
+  {id:'van', label:'Vanilla', emoji:'🤍', color:'#8B7355'},
+];
+let selectedFlavour = 'choc';
+
+function showIceCreamPicker(item) {
+  sizePickerItem = item;
+  selectedFlavour = 'choc';
+  const existing = document.getElementById('size-modal');
+  if(existing) existing.remove();
+
+  const overlay = document.createElement('div');
+  overlay.id = 'size-modal';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);z-index:200;display:flex;align-items:flex-end;';
+  overlay.onclick = (e)=>{ if(e.target===overlay) overlay.remove(); };
+
+  overlay.innerHTML = `
+  <div style="background:var(--dark);border-radius:24px 24px 0 0;padding:24px 20px 32px;width:100%;max-width:480px;margin:0 auto;animation:pageIn .3s ease;">
+    <div style="width:40px;height:4px;background:var(--dark4);border-radius:2px;margin:0 auto 18px;"></div>
+    <div style="font-size:2.2rem;text-align:center;margin-bottom:6px;">🍦</div>
+    <div style="font-family:'Bangers',cursive;font-size:1.5rem;color:var(--yellow);text-align:center;letter-spacing:1px;margin-bottom:4px;">${item.name}</div>
+    <div style="font-size:.7rem;color:var(--text-muted);text-align:center;margin-bottom:20px;">Rs. ${item.price.toLocaleString()} per serving</div>
+
+    <div style="font-size:.62rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1.5px;font-weight:600;margin-bottom:10px;">Choose Flavour</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:20px;" id="flavour-grid">
+      ${iceCreamFlavours.map((f,i)=>`
+        <div id="flv-${f.id}" onclick="selectFlavour('${f.id}',this)" style="background:${i===0?'var(--red)':'var(--dark2)'};border:1.5px solid ${i===0?'var(--red)':'var(--dark4)'};border-radius:14px;padding:14px 8px;text-align:center;cursor:pointer;transition:all .2s;">
+          <div style="font-size:1.8rem;margin-bottom:6px;">${f.emoji}</div>
+          <div style="font-size:.72rem;font-weight:700;color:${i===0?'#fff':'var(--text-muted)'};">${f.label}</div>
+        </div>`).join('')}
+    </div>
+
+    <div onclick="confirmFlavourAdd()" style="background:var(--red);border-radius:14px;padding:14px;font-weight:700;font-size:.88rem;color:#fff;cursor:pointer;text-align:center;box-shadow:0 6px 20px rgba(214,40,40,0.35);">
+      Add to Cart — Rs. ${item.price.toLocaleString()}
+    </div>
+  </div>`;
+  document.body.appendChild(overlay);
+}
+
+function selectFlavour(id, el) {
+  selectedFlavour = id;
+  document.querySelectorAll('#flavour-grid > div').forEach(c=>{
+    c.style.background = 'var(--dark2)';
+    c.style.borderColor = 'var(--dark4)';
+    c.querySelector('div:last-child').style.color = 'var(--text-muted)';
+  });
+  el.style.background = 'var(--red)';
+  el.style.borderColor = 'var(--red)';
+  el.querySelector('div:last-child').style.color = '#fff';
+}
+
+function confirmFlavourAdd() {
+  if(!sizePickerItem) return;
+  const flv = iceCreamFlavours.find(f=>f.id===selectedFlavour);
+  const fakeItem = {...sizePickerItem, emoji: flv.emoji};
+  addToCart(fakeItem, flv.label, sizePickerItem.price);
+  const modal = document.getElementById('size-modal');
+  if(modal) modal.remove();
+}
+
+// ─────────────────────────────
+// SIZE PICKER MODAL
+// ─────────────────────────────
+let sizePickerItem = null;
+let selectedSize = null;
+
+function showSizePicker(item) {
+  sizePickerItem = item;
+  const sizes = item.sizes;
+  const sizeKeys = Object.keys(sizes);
+  selectedSize = sizeKeys[0];
+  
+  const existing = document.getElementById('size-modal');
+  if(existing) existing.remove();
+  
+  const overlay = document.createElement('div');
+  overlay.id = 'size-modal';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);z-index:200;display:flex;align-items:flex-end;';
+  overlay.onclick = (e)=>{ if(e.target===overlay) overlay.remove(); };
+  
+  overlay.innerHTML = `
+  <div style="background:var(--dark);border-radius:24px 24px 0 0;padding:24px 20px 32px;width:100%;max-width:480px;margin:0 auto;transform:translateY(0);animation:pageIn .3s ease;">
+    <div style="width:40px;height:4px;background:var(--dark4);border-radius:2px;margin:0 auto 20px;"></div>
+    <div style="font-size:2rem;text-align:center;margin-bottom:6px;">${item.emoji}</div>
+    <div style="font-family:'Bangers',cursive;font-size:1.5rem;color:var(--yellow);text-align:center;letter-spacing:1px;margin-bottom:4px;">${item.name}</div>
+    <div style="font-size:.72rem;color:var(--text-muted);text-align:center;margin-bottom:18px;">${item.desc}</div>
+    <div style="font-size:.65rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px;font-weight:600;">Select Size</div>
+    <div style="display:grid;grid-template-columns:repeat(${Math.min(sizeKeys.length,4)},1fr);gap:8px;margin-bottom:18px;" id="size-opts-grid">
+      ${sizeKeys.map((s,i)=>`
+        <div class="size-opt-card ${i===0?'active':''}" onclick="selectSizeOpt('${s}',this)" style="background:${i===0?'var(--red)':'var(--dark2)'};border:1px solid ${i===0?'var(--red)':'var(--dark4)'};border-radius:12px;padding:12px 8px;text-align:center;cursor:pointer;transition:all .2s;">
+          <div style="font-size:.82rem;font-weight:700;color:${i===0?'#fff':'var(--text-muted)'};">${s}</div>
+          <div style="font-size:.75rem;color:${i===0?'rgba(255,255,255,0.8)':'var(--yellow)'};font-weight:600;margin-top:3px;">Rs. ${sizes[s].toLocaleString()}</div>
+        </div>`).join('')}
+    </div>
+    <div onclick="confirmSizeAdd()" style="background:var(--red);border-radius:14px;padding:14px;font-weight:700;font-size:.88rem;color:#fff;cursor:pointer;transition:all .2s;text-align:center;box-shadow:0 6px 20px rgba(214,40,40,0.35);">
+      Add to Cart — Rs. <span id="size-price-display">${sizes[sizeKeys[0]].toLocaleString()}</span>
+    </div>
+  </div>`;
+  document.body.appendChild(overlay);
+}
+
+function selectSizeOpt(size, el) {
+  selectedSize = size;
+  const grid = document.getElementById('size-opts-grid');
+  grid.querySelectorAll('.size-opt-card').forEach(c=>{
+    c.style.background = 'var(--dark2)';
+    c.style.borderColor = 'var(--dark4)';
+    c.querySelector('div').style.color = 'var(--text-muted)';
+    c.querySelectorAll('div')[1].style.color = 'var(--yellow)';
+  });
+  el.style.background = 'var(--red)';
+  el.style.borderColor = 'var(--red)';
+  el.querySelector('div').style.color = '#fff';
+  el.querySelectorAll('div')[1].style.color = 'rgba(255,255,255,0.8)';
+  const price = sizePickerItem.sizes[size];
+  document.getElementById('size-price-display').textContent = price.toLocaleString();
+}
+
+function confirmSizeAdd() {
+  if(!sizePickerItem || !selectedSize) return;
+  const price = sizePickerItem.sizes[selectedSize];
+  addToCart(sizePickerItem, selectedSize, price);
+  const modal = document.getElementById('size-modal');
+  if(modal) modal.remove();
+}
+
+// ─────────────────────────────
+// CART
+// ─────────────────────────────
+function addToCart(item, size, price) {
+  const key = item.id + (size?'_'+size:'');
+  const existing = cart.find(c=>c.key===key);
+  if(existing) {
+    existing.qty++;
+  } else {
+    cart.push({key, id:item.id, name:item.name+(size?' ('+size+')':''), emoji:item.emoji, price, qty:1});
+  }
+  updateCartBadge();
+  showToast(`${item.emoji} ${item.name} added!`);
+}
+
+function updateCartBadge() {
+  const total = cart.reduce((s,i)=>s+i.qty,0);
+  const badge = document.getElementById('cart-badge');
+  if(total>0) { badge.style.display='flex'; badge.textContent=total; }
+  else { badge.style.display='none'; }
+}
+
+function changeQty(key, delta) {
+  const idx = cart.findIndex(c=>c.key===key);
+  if(idx===-1) return;
+  cart[idx].qty += delta;
+  if(cart[idx].qty <= 0) cart.splice(idx,1);
+  updateCartBadge();
+  renderCart();
+}
+
+function renderCart() {
+  const subtitleEl = document.getElementById('cart-subtitle');
+  const contentEl = document.getElementById('cart-content');
+  if(cart.length===0) {
+    subtitleEl.textContent = '0 items';
+    contentEl.innerHTML = `
+      <div class="cart-empty">
+        <div class="cart-empty-icon">🛒</div>
+        <div class="cart-empty-title">Cart is Empty</div>
+        <div class="cart-empty-sub">Add some delicious items from our menu!</div>
+        <div onclick="showPage('home')" style="margin-top:14px;background:var(--red);color:#fff;padding:11px 24px;border-radius:30px;font-size:.8rem;font-weight:600;cursor:pointer;">Browse Menu</div>
+      </div>`;
+    return;
+  }
+
+  const totalQty = cart.reduce((s,i)=>s+i.qty,0);
+  subtitleEl.textContent = `${totalQty} item${totalQty>1?'s':''}`;
+  const subtotal = cart.reduce((s,i)=>s+i.price*i.qty,0);
+
+  contentEl.innerHTML = `
+    <div class="cart-items">
+      ${cart.map(item=>`
+        <div class="cart-item">
+          <div class="ci-emoji">${item.emoji}</div>
+          <div class="ci-info">
+            <div class="ci-name">${item.name}</div>
+            <div class="ci-price">Rs. ${(item.price*item.qty).toLocaleString()}</div>
+          </div>
+          <div class="ci-qty">
+            <div class="qty-btn" onclick="changeQty('${item.key}',-1)">−</div>
+            <div class="qty-val">${item.qty}</div>
+            <div class="qty-btn" onclick="changeQty('${item.key}',1)">+</div>
+          </div>
+        </div>`).join('')}
+    </div>
+
+    <div class="order-summary" style="margin-top:6px;">
+      <div class="summary-row"><div class="summary-label">Subtotal (${totalQty} items)</div><div class="summary-value">Rs. ${subtotal.toLocaleString()}</div></div>
+      <div class="summary-row"><div class="summary-label">Tax</div><div class="summary-value">Rs. 0</div></div>
+      <div class="summary-total-row"><div class="summary-total-label">Total</div><div class="summary-total-value">Rs. ${subtotal.toLocaleString()}</div></div>
+    </div>
+
+    <div onclick="openCheckout()" style="display:flex;align-items:center;justify-content:space-between;width:calc(100% - 32px);margin:12px 16px 0;background:var(--red);border-radius:16px;padding:15px 20px;font-weight:700;font-size:.9rem;color:#fff;cursor:pointer;box-shadow:0 6px 25px rgba(214,40,40,0.4);">
+      <span>Proceed to Checkout</span>
+      <span style="font-size:1.1rem;">›</span>
+    </div>`;
+}
+
+function setOrderType(type) {
+  currentOrderType = type;
+  renderCart();
+}
+
+// ─────────────────────────────
+// CHECKOUT OVERLAY
+// ─────────────────────────────
+function openCheckout() {
+  if(cart.length===0){ showToast('Add items first!'); return; }
+  renderCheckoutOverlay();
+  document.getElementById('checkout-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeCheckout() {
+  document.getElementById('checkout-overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+function handleCheckoutClick(e) {
+  if(e.target===document.getElementById('checkout-overlay')) closeCheckout();
+}
+function setCheckoutType(type) {
+  currentOrderType = type;
+  ['dine-in','pickup','delivery'].forEach(t=>{
+    document.getElementById('co-tab-'+t)?.classList.toggle('active', t===type);
+  });
+  renderCoFormFields();
+  renderCoSummary();
+}
+function renderCheckoutOverlay() {
+  // reset tabs
+  ['dine-in','pickup','delivery'].forEach(t=>{
+    document.getElementById('co-tab-'+t)?.classList.toggle('active', t===currentOrderType);
+  });
+  renderCoFormFields();
+  renderCoSummary();
+}
+function renderCoFormFields() {
+  const el = document.getElementById('co-form-fields');
+  if(!el) return;
+  if(currentOrderType==='dine-in') {
+    el.innerHTML = `
+      <div class="co-section-label">Table Details</div>
+      <div class="cf-field"><label class="cf-label">Table Number *</label><input class="cf-input" id="cf-table" placeholder="e.g. Table 4" /></div>`;
+  } else if(currentOrderType==='pickup') {
+    el.innerHTML = `
+      <div class="co-section-label">Your Details</div>
+      <div class="cf-field"><label class="cf-label">Full Name *</label><input class="cf-input" id="cf-name" placeholder="Your name" /></div>
+      <div class="cf-field"><label class="cf-label">Phone Number</label><input class="cf-input" id="cf-phone" type="tel" placeholder="03xx-xxxxxxx" /></div>`;
+  } else {
+    el.innerHTML = `
+      <div class="co-section-label">Delivery Details</div>
+      <div class="cf-field"><label class="cf-label">Full Name *</label><input class="cf-input" id="cf-name" placeholder="Your name" /></div>
+      <div class="cf-field"><label class="cf-label">Delivery Address *</label><input class="cf-input" id="cf-address" placeholder="Full address in Daska" /></div>
+      <div class="cf-field"><label class="cf-label">Phone Number</label><input class="cf-input" id="cf-phone" type="tel" placeholder="03xx-xxxxxxx" /></div>
+      <div style="display:flex;align-items:center;gap:6px;background:rgba(37,211,102,0.08);border:1px solid rgba(37,211,102,0.2);border-radius:10px;padding:9px 12px;margin-bottom:10px;">
+        <span>🛵</span><span style="font-size:.7rem;color:#25D366;font-weight:600;">Free Home Delivery!</span>
+      </div>`;
+  }
+}
+function renderCoSummary() {
+  const el = document.getElementById('co-summary');
+  if(!el) return;
+  const subtotal = cart.reduce((s,i)=>s+i.price*i.qty,0);
+  el.innerHTML = `
+    <div style="background:var(--dark2);border:1px solid var(--dark3);border-radius:14px;padding:14px;margin-bottom:4px;">
+      ${cart.map(i=>`
+        <div style="display:flex;justify-content:space-between;margin-bottom:7px;font-size:.75rem;">
+          <span style="color:var(--text);">${i.emoji} ${i.name} <span style="color:var(--text-muted);">x${i.qty}</span></span>
+          <span style="color:var(--yellow);font-weight:600;">Rs. ${(i.price*i.qty).toLocaleString()}</span>
+        </div>`).join('')}
+      <div style="border-top:1px solid var(--dark4);margin-top:8px;padding-top:8px;display:flex;justify-content:space-between;">
+        <span style="font-weight:700;color:#fff;font-size:.85rem;">Total</span>
+        <span style="font-weight:700;color:var(--yellow);font-size:.95rem;">Rs. ${subtotal.toLocaleString()}</span>
+      </div>
+    </div>`;
+}
+function renderCheckoutForm() { /* legacy no-op */ }
+
+// ─────────────────────────────
+// WHATSAPP ORDER
+// ─────────────────────────────
+function placeOrderWA() {
+  if(cart.length===0){ showToast('Add items first!'); return; }
+  const table = document.getElementById('cf-table')?.value||'';
+  const name = document.getElementById('cf-name')?.value||'';
+  const address = document.getElementById('cf-address')?.value||'';
+  const phone = document.getElementById('cf-phone')?.value||'';
+  if(currentOrderType==='dine-in' && !table){ showToast('Please enter table number'); return; }
+  if((currentOrderType==='pickup'||currentOrderType==='delivery') && !name){ showToast('Please enter your name'); return; }
+  if(currentOrderType==='delivery' && !address){ showToast('Please enter delivery address'); return; }
+  
+  const subtotal = cart.reduce((s,i)=>s+i.price*i.qty,0);
+  const total = subtotal;
+  
+  let msg = `🍕 *New Order — Mr. Pizza Family Restaurant*\n\n`;
+  msg += `📋 *Order Type:* ${currentOrderType==='dine-in'?'Dine In':currentOrderType==='pickup'?'Pick Up':'Home Delivery'}\n`;
+  if(currentOrderType==='dine-in') msg+=`🪑 *Table:* ${table}\n`;
+  if(currentOrderType==='pickup'){ msg+=`👤 *Name:* ${name}\n`; if(phone) msg+=`📞 *Phone:* ${phone}\n`; }
+  if(currentOrderType==='delivery'){ msg+=`👤 *Name:* ${name}\n📍 *Address:* ${address}\n`; if(phone) msg+=`📞 *Phone:* ${phone}\n`; }
+  msg += `\n*🛒 Order Items:*\n`;
+  cart.forEach(i=>{ msg+=`• ${i.name} x${i.qty} — Rs. ${(i.price*i.qty).toLocaleString()}\n`; });
+  msg += `\n💰 *Subtotal:* Rs. ${subtotal.toLocaleString()}`;
+  if(currentOrderType==='delivery') msg += `\n🛵 *Delivery:* FREE`;
+  msg += `\n✅ *Total:* Rs. ${total.toLocaleString()}`;
+  
+  window.location.href = `https://wa.me/${WA1}?text=${encodeURIComponent(msg)}`;
+}
+
+function bookIftarWA() {
+  const msg = `🌙 *Iftar Platter Reservation — Mr. Pizza Family Restaurant*\n\nI would like to book the Iftar Platter (Rs. 1,050).\n\nPlease confirm availability. Thank you!`;
+  window.location.href = `https://wa.me/${WA1}?text=${encodeURIComponent(msg)}`;
+}
+
+// ─────────────────────────────
+// SEARCH
+// ─────────────────────────────
+function focusSearch() {
+  showPage('home');
+  setTimeout(()=>{
+    document.getElementById('search-input').focus();
+    document.getElementById('search-section').scrollIntoView({behavior:'smooth'});
+  },100);
+}
+
+function handleSearch(val) {
+  const resultsEl = document.getElementById('search-results');
+  const clearBtn = document.getElementById('search-clear');
+  const layout = document.getElementById('menu-layout');
+  const label = document.querySelector('.home-section-label');
+  if(!val.trim()){
+    resultsEl.style.display='none';
+    clearBtn.style.display='none';
+    layout.style.display='flex';
+    label.style.display='flex';
+    return;
+  }
+  clearBtn.style.display='block';
+  layout.style.display='none';
+  label.style.display='none';
+  const q = val.toLowerCase();
+  const results = allItems.filter(i=>i.name.toLowerCase().includes(q)||i.desc.toLowerCase().includes(q));
+  resultsEl.style.display='block';
+  if(results.length===0){
+    resultsEl.innerHTML=`<div style="color:var(--text-muted);font-size:.8rem;padding:20px;text-align:center;">No items found for "${val}"</div>`;
+    return;
+  }
+  resultsEl.innerHTML=`
+    <div style="font-size:.65rem;color:var(--text-muted);margin-bottom:10px;letter-spacing:1px;text-transform:uppercase;">${results.length} result${results.length>1?'s':''} found</div>
+    <div class="menu-grid" style="padding:0;">${results.map(i=>renderCard(i,i.category)).join('')}</div>`;
+}
+
+function clearSearch() {
+  const input = document.getElementById('search-input');
+  input.value='';
+  handleSearch('');
+  input.focus();
+}
+
+// ─────────────────────────────
+// RESERVATION
+// ─────────────────────────────
+function openReservation() {
+  document.getElementById('res-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeReservation() {
+  document.getElementById('res-overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+function handleResClick(e) {
+  if(e.target===document.getElementById('res-overlay')) closeReservation();
+}
+function submitReservation() {
+  const name=document.getElementById('res-name').value.trim();
+  const phone=document.getElementById('res-phone').value.trim();
+  const guests=document.getElementById('res-guests').value;
+  const date=document.getElementById('res-date').value;
+  const time=document.getElementById('res-time').value;
+  const meal=document.getElementById('res-meal').value;
+  const notes=document.getElementById('res-notes').value;
+  if(!name||!phone||!guests||!date||!time){ showToast('Please fill all required fields'); return; }
+  let msg=`📅 *Table Reservation — Mr. Pizza Family Restaurant*\n\n`;
+  msg+=`👤 *Name:* ${name}\n📞 *Phone:* ${phone}\n`;
+  msg+=`👥 *Guests:* ${guests}\n📅 *Date:* ${date}\n⏰ *Time:* ${time}\n`;
+  msg+=`🍽️ *Meal:* ${meal.charAt(0).toUpperCase()+meal.slice(1)}\n`;
+  if(notes) msg+=`📝 *Notes:* ${notes}\n`;
+  msg+=`\nPlease confirm my reservation. Thank you!`;
+  window.open(`https://wa.me/${WA1}?text=${encodeURIComponent(msg)}`,'_blank');
+  closeReservation();
+  showToast('Reservation sent via WhatsApp! ✅');
+}
+
+// ─────────────────────────────
+// TOAST
+// ─────────────────────────────
+let toastT;
+function showToast(msg) {
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  clearTimeout(toastT);
+  toastT=setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+// ─────────────────────────────
+// PARTICLES
+// ─────────────────────────────
+function initParticles() {
+  const canvas=document.getElementById('hero-particles');
+  if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  let W,H,particles=[];
+  function resize(){ W=canvas.width=canvas.offsetWidth; H=canvas.height=canvas.offsetHeight; }
+  resize();
+  window.addEventListener('resize',resize);
+  class Particle{
+    constructor(){ this.reset(); }
+    reset(){ this.x=Math.random()*W; this.y=Math.random()*H; this.size=Math.random()*1.5+0.3; this.speedY=-(Math.random()*0.4+0.15); this.speedX=(Math.random()-0.5)*0.15; this.opacity=Math.random()*0.5+0.1; this.life=0; this.maxLife=Math.random()*200+100; }
+    update(){ this.x+=this.speedX; this.y+=this.speedY; this.life++; if(this.life>this.maxLife||this.y<0) this.reset(); }
+    draw(){ const alpha=Math.min(this.opacity,(1-this.life/this.maxLife)*this.opacity*2); ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2); ctx.fillStyle=`rgba(214,40,40,${alpha})`; ctx.fill(); }
+  }
+  for(let i=0;i<40;i++){ const p=new Particle(); p.life=Math.random()*p.maxLife; particles.push(p); }
+  function animate(){ ctx.clearRect(0,0,W,H); particles.forEach(p=>{p.update();p.draw();}); requestAnimationFrame(animate); }
+  animate();
+}
+
+window.addEventListener('DOMContentLoaded',()=>{
+  const di=document.getElementById('res-date');
+  if(di) di.min=new Date().toISOString().split('T')[0];
+  setTimeout(()=>{
+    document.getElementById('loader').classList.add('hide');
+    setTimeout(()=>document.getElementById('loader').remove(),750);
+    initMenu();
+    initParticles();
+  },2200);
+});
+</script>
+</body>
+</html>
